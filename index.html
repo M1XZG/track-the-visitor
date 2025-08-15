@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Track the Visitor</title>
+    <meta name="description" content="Theatrically locate the visitor on a map and show browser details." />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Track the Visitor</h1>
+      <div id="status" class="status">Starting…</div>
+    </header>
+
+    <main class="container">
+      <section class="map-section">
+        <div id="map" class="map"></div>
+        <div id="hud" class="hud">
+          <div class="hud-line">• Acquiring IP…</div>
+          <div class="hud-line">• Geolocating…</div>
+          <div class="hud-line">• Plotting on map…</div>
+          <div class="hud-line done" id="hud-final">• Done.</div>
+        </div>
+        <!-- Crosshair overlay for added theatre during search -->
+        <div id="crosshair" class="crosshair" aria-hidden="true">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="sweep"></div>
+          <div class="dot"></div>
+        </div>
+        <div id="callout" class="callout hidden"></div>
+      </section>
+
+      <section class="info-section">
+        <h2>Browser & Visitor Details</h2>
+        <div class="actions">
+          <button id="copyJsonBtn" title="Copy all data as JSON">Copy JSON</button>
+        </div>
+        <div class="table-wrap">
+          <table id="detailsTable" class="details-table">
+            <thead>
+              <tr><th>Property</th><th>Value</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>
+        Map data © OpenStreetMap contributors. This page calls public IP geolocation APIs client-side.
+      </small>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="./assets/script.js" type="module"></script>
+  </body>
+  </html>
