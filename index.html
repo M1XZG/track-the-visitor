@@ -14,7 +14,8 @@
       crossorigin=""
     />
 
-    <link rel="stylesheet" href="./assets/style.css" />
+  <link rel="stylesheet" href="./assets/style.css?v=20250815" />
+  <link rel="icon" href="data:," />
   </head>
   <body>
     <header class="app-header">
@@ -25,6 +26,10 @@
     <main class="container">
       <section class="map-section">
         <div id="map" class="map"></div>
+        <!-- CRT/scanlines and vignette overlays for spy-tool vibe -->
+        <div class="scanlines" aria-hidden="true"></div>
+        <div class="vignette" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
         <div id="hud" class="hud">
           <div class="hud-line">• Acquiring IP…</div>
           <div class="hud-line">• Geolocating…</div>
@@ -39,6 +44,17 @@
           <div class="sweep"></div>
           <div class="dot"></div>
         </div>
+  <!-- Sonar ping overlay -->
+  <div id="sonar" class="sonar" aria-hidden="true"></div>
+        <!-- Audio unlock CTA -->
+        <button id="audioCta" class="overlay audio-cta" aria-live="polite" title="Enable sound">
+          Enable sound
+        </button>
+        <!-- Controls and console log -->
+        <div class="overlay top-left" id="controls">
+          <button id="replayBtn" title="Replay the hunt">Replay</button>
+        </div>
+        <div class="overlay console" id="console" aria-live="polite"></div>
         <div id="callout" class="callout hidden"></div>
       </section>
 
@@ -70,6 +86,6 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script src="./assets/script.js" type="module"></script>
+  <script src="./assets/script.js?v=20250815" type="module"></script>
   </body>
   </html>

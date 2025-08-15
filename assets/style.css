@@ -24,20 +24,31 @@ body{
 .container{max-width:1100px;margin:20px auto;padding:0 16px}
 .map-section{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35);border:1px solid #1e293b}
 .map{height:420px}
+.leaflet-container{position:relative;z-index:100}
+
+/* Scanlines and vignette */
+.scanlines{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);background-size:100% 3px;mix-blend-mode:overlay;opacity:.25;z-index:150}
+.vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 180px rgba(0,0,0,.6);z-index:160}
+.noise{position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="120" height="120" filter="url(%23n)" opacity="0.7"/></svg>');background-size:220px 220px;animation:noiseShift 1.8s steps(10) infinite;z-index:140}
+@keyframes noiseShift{to{transform:translate3d(0, -220px, 0)}}
 
 /* HUD overlay */
-.hud{position:absolute;right:16px;top:16px;background:rgba(2,6,23,.6);border:1px solid #1f2937;border-radius:8px;padding:10px 12px;backdrop-filter: blur(4px);}
+.hud{position:absolute;right:16px;top:16px;background:rgba(2,6,23,.6);border:1px solid #1f2937;border-radius:8px;padding:10px 12px;backdrop-filter: blur(4px);z-index:450}
 .hud-line{font-family:ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono";font-size:12px;color:#a3e635;opacity:.75;animation: blink 1.2s step-end infinite alternate}
 .hud-line:nth-child(2){color:#7dd3fc}
 .hud-line:nth-child(3){color:#c4b5fd}
 .hud-line.done{animation:none;opacity:1;color:var(--accent);}
+/* Teletype effect for HUD lines when active */
+.hud.typing .hud-line{animation:none;opacity:1;position:relative}
+.hud.typing .hud-line::after{content:"_";position:absolute;right:-6px;animation:cursor 1s step-end infinite}
+@keyframes cursor{50%{opacity:0}}
 @keyframes blink{from{opacity:.45}to{opacity:1}}
 
-.callout{position:absolute;bottom:12px;left:12px;background:rgba(2,6,23,.8);padding:10px 12px;border-radius:8px;border:1px solid #1f2937;color:#e2e8f0;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.callout{position:absolute;bottom:12px;left:12px;background:rgba(2,6,23,.8);padding:10px 12px;border-radius:8px;border:1px solid #1f2937;color:#e2e8f0;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:460}
 .hidden{display:none}
 
 /* Crosshair overlay */
-.crosshair{position:absolute;inset:0;pointer-events:none;display:none;place-items:center}
+.crosshair{position:absolute;inset:0;pointer-events:none;display:none;place-items:center;z-index:300}
 .crosshair.active{display:grid}
 .crosshair .ring{position:absolute;border:1px dashed rgba(148,163,184,.5);border-radius:50%;box-shadow:0 0 40px rgba(34,211,238,.25) inset}
 .crosshair .ring-1{width:60px;height:60px;animation:pulse 2.2s ease-in-out infinite}
@@ -47,6 +58,13 @@ body{
 .crosshair .sweep{position:absolute;width:2px;height:40%;background:linear-gradient(180deg, rgba(34,211,238,0.9), rgba(34,211,238,0));transform-origin:bottom center;animation:sweep 3.4s linear infinite;mix-blend-mode:screen}
 @keyframes pulse{0%{transform:scale(0.95);opacity:.8}50%{transform:scale(1.05);opacity:1}100%{transform:scale(0.95);opacity:.8}}
 @keyframes sweep{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* Sonar pings */
+.sonar{position:absolute;inset:0;pointer-events:none;z-index:250}
+.sonar::before,.sonar::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;border:2px solid rgba(34,211,238,.7);border-radius:50%;transform:translate(-50%,-50%) scale(1);opacity:.8}
+.sonar::after{animation:ping 2.6s ease-out infinite}
+.sonar::before{animation:ping 3.2s ease-out 1.2s infinite}
+@keyframes ping{0%{transform:translate(-50%,-50%) scale(1);opacity:.7}100%{transform:translate(-50%,-50%) scale(18);opacity:0}}
 
 /* Crosshair overlay */
 .crosshair{position:absolute;inset:0;pointer-events:none;display:none;place-items:center}
@@ -85,4 +103,21 @@ body{
 .leaflet-popup-content-wrapper{background:#0b1220;color:#e5e7eb;border:1px solid #1f2937;border-radius:10px}
 .leaflet-popup-tip{background:#0b1220}
 
+/* Target lock flash */
+.lock-flash{animation:lockFlash 0.9s ease-out}
+@keyframes lockFlash{0%{filter:brightness(2)}100%{filter:none}}
+
 .app-footer{max-width:1100px;margin:12px auto;color:#94a3b8;padding:0 16px}
+
+/* Controls & console */
+.overlay.top-left{position:absolute;top:12px;left:12px;background:rgba(2,6,23,.65);border:1px solid #1f2937;border-radius:8px;padding:8px 10px;display:flex;gap:10px;align-items:center;backdrop-filter: blur(4px);z-index:500;pointer-events:auto}
+.overlay.top-left label{font-size:12px;color:#cbd5e1;display:flex;gap:6px;align-items:center}
+.overlay.top-left button{background:linear-gradient(180deg,#334155,#0f172a);color:#d1d5db;border:1px solid #334155;border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer}
+.overlay.console{position:absolute;left:12px;bottom:12px;right:12px;max-height:34%;overflow:auto;background:rgba(2,6,23,.5);border:1px solid #1f2937;border-radius:8px;padding:8px 10px;font-family:ui-monospace,Menlo,Monaco,Consolas,"Liberation Mono";font-size:12px;color:#a7f3d0;z-index:500;pointer-events:auto}
+.overlay.console .log{opacity:.9}
+.overlay.console .warn{color:#fde68a}
+.overlay.console .error{color:#fecaca}
+
+/* Audio CTA */
+.overlay.audio-cta{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#10b981,#047857);color:#062a23;border:1px solid #065f46;border-radius:999px;padding:8px 14px;font-weight:700;letter-spacing:.3px;cursor:pointer;z-index:520;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.overlay.audio-cta:hover{filter:brightness(1.05)}
